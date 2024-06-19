@@ -59,6 +59,7 @@ p.from-me {
     align-self: flex-end; /* Align from-me messages to the end (right side) */
     background-color: #248bf5;
     color: #fff; /* Ensure text color is white */
+    text-align: right;
 }
 
 p.from-me::before {
@@ -97,6 +98,7 @@ p.from-them {
     align-self: flex-start; /* Align from-them messages to the start (left side) */
     background-color: rgb(50, 50, 50); /* Change background color */
     color: #ffffff; /* Text color */
+    text-align: left;
 }
 
 p.from-them::before {
