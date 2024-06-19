@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const typingElement = document.getElementById('typing-text');
     const videoContainer = document.getElementById('video-container');
     const introVideo = document.getElementById('intro-video');
+    const bgAudio = new Audio("./audio/bg2.mp3"); // Background audio element
 
     const initialMessage = "Turn the volume up a little, and tap when you're ready c:";
 
@@ -161,14 +162,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!typingInitialMessage) {
             document.removeEventListener('click', tapHandler); // Remove tap event listener
             setTimeout(() => {
-                playSound("./audio/bg2.mp3");
+
+                // Ensure background audio continues playing
+                bgAudio.play();
+
                 typeText(introTexts, () => {
                     
                     // Show video with fade-in effect
                     videoContainer.classList.add('fade-in');
                     videoContainer.style.display = 'block'; // Show the video container
+
+                    // Ensure video is muted and autoplayed
                     introVideo.volume = videoVolume;
-                    introVideo.muted = true; // Ensure video is muted for autoplay compliance
+                    introVideo.muted = true;
 
                     // Attempt to autoplay the video
                     introVideo.play()
@@ -208,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function runMessagesSequentially(messageArray, index, callback) {
         if (index < messageArray.length) {
             messageArray[index]();
-            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 1000); // Adjust delay between messages
+            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 2500); // Adjust delay between messages
         } else {
             callback();
         }
