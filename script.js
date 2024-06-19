@@ -168,16 +168,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     videoContainer.style.display = 'block'; // Show the video container
                     introVideo.volume = videoVolume;
                     
-                    if (canAutoplayVideo()) {
-                        introVideo.muted = true; // Mute for autoplay compliance
-                        introVideo.play();
-                    } else {
-                        // Handle user interaction requirement for autoplay
-                        videoContainer.addEventListener('click', () => {
-                            introVideo.muted = false; // Unmute on user interaction
-                            introVideo.play();
+                    // Attempt to autoplay the video
+                    introVideo.play()
+                        .then(() => {
+                            // Video started playing
+                        })
+                        .catch((error) => {
+                            // Autoplay failed, handle it here
+                            console.error('Autoplay failed:', error);
+                            // Show a play button or message to manually start the video
+                            videoContainer.addEventListener('click', () => {
+                                introVideo.muted = false; // Unmute on user interaction
+                                introVideo.play();
+                            });
                         });
-                    }
 
                     introVideo.onended = () => {
                         // Fade out video and start initial texts
