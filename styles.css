@@ -262,3 +262,15 @@ p.from-me, p.from-them {
     width: 80%;
     height: auto;
 }
+
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Ensure no touch actions are allowed */
+body, video {
+    touch-action: none;
+    user-select: none;
+}
+
