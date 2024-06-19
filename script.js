@@ -1,44 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
     const imessageContainer = document.querySelector('.imessage');
     const typingElement = document.getElementById('typing-text');
+    const videoContainer = document.getElementById('video-container');
+    const introVideo = document.getElementById('intro-video');
+
+    const initialMessage = "Turn the volume up a little, and tap when you're ready c:";
+
+    const introTexts = [
+        "Happy Birthday my love!",
+        "I miss you so much.",
+        "I know I can't be there now.",
+        "But this'll do! You're going to enjoy today c:",
+        "I love you, you are so beautiful",
+        "This day is your day, but every day...",
+        "You are the most special woman in the universe",
+        "And next birthday, it's just us two",
+        "Me and you :3"
+    ];
 
     const initialTexts = [
-        "Happy Birthday, [Her Name]!",
-        "I hope you have a fantastic day!"
+        "And one day,",
+        "A day not very far away,",
     ];
 
     const finalTexts = [
-        "Thank you for everything.",
-        "You mean the world to me.",
-        "Forever yours."
+        "Happy birthday lovey.",
+        "I love you, forever mine and forever yours.",
+        "And if I had a flower for each time I thought of you",
+        "I'd walk through an eternal garden",
+        "This is only the beginning of our new journey",
+        "And it only gets better from here",
+        "See you soon c:",
+        "<3"
+    ];
+
+    const messagesToAdd = [
+        () => addMessage('Hey, I miss you', 'from-me'),
+        () => addMessage('I miss you too baby, come to my new place?', 'from-them'),
+        () => addMessage('I would love to', 'from-me'),
+        () => addMessage('Dinner will be ready, just drive safely :)', 'from-them'),
+        () => addMessage('Okie! See you soon lovey', 'from-me'),
+        () => addMessage('See you soon c:', 'from-them')
     ];
 
     let i = 0;
     let j = 0;
-    const typingSpeed = 100; // Speed of typing
-    const deletingSpeed = 50; // Speed of deleting
-    const delayBeforeDeleting = 3000; // Delay before starting to delete (3 seconds)
+    let typingInitialMessage = true; // Flag to track if typing initial message
+    const typingSpeed = 55; // Speed of typing
+    const deletingSpeed = 30; // Speed of deleting
+    const delayBeforeDeleting = 2000; // Delay before starting to delete (3 seconds)
     const delayBetweenLines = 1000; // Delay between deleting one line and starting the next
     const finalMessageDelay = 2000; // Delay before displaying final "I love you more" message
     const fadeOutDuration = 1000; // Duration of the fade-out effect
 
+    // Adjust this value to set the desired volume level (0.0 to 1.0)
+    const videoVolume = 0.10; // Example: Set the volume to 10%
+
     function typeText(textArray, callback) {
         if (i < textArray.length) {
             if (j < textArray[i].length) {
-                typingElement.innerHTML += textArray[i].charAt(j);
+                typingElement.textContent += textArray[i].charAt(j);
                 j++;
+                // Check if text exceeds client width, if so, add line break
+                if (typingElement.scrollWidth > typingElement.clientWidth) {
+                    typingElement.innerHTML = typingElement.textContent + '<br>';
+                }
                 setTimeout(() => typeText(textArray, callback), typingSpeed);
             } else {
                 setTimeout(() => deleteText(textArray, callback), delayBeforeDeleting);
             }
         } else {
+            i = 0;
             callback();
         }
     }
 
     function deleteText(textArray, callback) {
         if (j >= 0) {
-            typingElement.innerHTML = textArray[i].substring(0, j);
+            typingElement.textContent = textArray[i].substring(0, j);
             j--;
             setTimeout(() => deleteText(textArray, callback), deletingSpeed);
         } else {
@@ -49,11 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayFinalMessages() {
-        addMessage('I love you', 'from-me');
-        setTimeout(() => {
-            addMessage('I love you more', 'from-them');
-            setTimeout(clearMessages, delayBeforeDeleting + finalMessageDelay); // Clear messages after delay
-        }, finalMessageDelay);
+        runMessagesSequentially(messagesToAdd, 0, () => {
+            setTimeout(clearMessages, finalMessageDelay); // Clear messages after delay
+        });
     }
 
     function clearMessages() {
@@ -82,9 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Insert the new message at the end and trigger the sound
         imessageContainer.appendChild(p);
         if (fromClass === 'from-me') {
-            playSound('./audio/fm.ogg');
+            playSound('./audio/fm.mp3');
         } else if (fromClass === 'from-them') {
-            playSound('./audio/ft.ogg');
+            playSound('./audio/ft.mp3');
         }
 
         // Add slide animation to new message
@@ -110,6 +147,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
     observer.observe(imessageContainer, { childList: true });
 
-    // Start typing the first text
-    setTimeout(() => typeText(initialTexts, displayFinalMessages), 1000);
+    // Function to start typing the initial message
+    function startInitialMessage() {
+        typingInitialMessage = true;
+        typeText([initialMessage], () => {
+            typingInitialMessage = false;
+        });
+    }
+
+    // Function to handle tap event and start initial messages
+    function tapHandler() {
+        if (!typingInitialMessage) {
+            document.removeEventListener('click', tapHandler); // Remove tap event listener
+            setTimeout(() => {
+                playSound("./audio/bg2.mp3");
+                typeText(introTexts, () => {
+                    
+                    // Show video with fade-in effect
+                    videoContainer.classList.add('fade-in');
+                    videoContainer.style.display = 'block'; // Show the video container
+                    introVideo.volume = videoVolume;
+                    introVideo.play();
+
+                    introVideo.onended = () => {
+                        // Fade out video and start initial texts
+                        videoContainer.classList.add('fade-out');
+                        setTimeout(() => {
+                            videoContainer.style.display = 'none';
+                            typeText(initialTexts, displayFinalMessages);
+                        }, fadeOutDuration);
+                    };
+                });
+            }, 500); // Adjust delay as needed
+        }
+    }
+
+    // Start with typing the initial message
+    startInitialMessage();
+
+    // Listen for tap events anywhere on the document
+    document.addEventListener('click', tapHandler);
+
+    // Function to run messages sequentially with delay between each
+    function runMessagesSequentially(messageArray, index, callback) {
+        if (index < messageArray.length) {
+            messageArray[index]();
+            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 2500); // Adjust delay as needed
+        } else {
+            callback();
+        }
+    }
 });

@@ -21,15 +21,16 @@ body {
 .imessage {
     background-color: #000000; /* Change background to black */
     border-radius: 0.25rem;
+    font-family: "SanFrancisco"; /* Custom font */
+    font-size: 1.25rem;
+    width: 90%; /* Use percentage for responsive width */
+    max-width: 600px; /* Set max-width for larger screens */
+    padding: 0.5rem 1.5rem;
+    transition: opacity 0.5s ease; /* Adjusted for faster fade-out effect */
     display: flex;
     flex-direction: column;
-    font-family: "SanFrancisco";
-    font-size: 1.25rem;
+    align-items: flex-end; /* Align items to the end (right side) by default */
     margin: 1rem auto;
-    width: 30%; /* Use width instead of max-width */
-    max-width: 600px; /* Adjust max-width to your preference */
-    padding: 0.5rem 1.5rem;
-    transition: opacity 1s ease; /* Add transition for fade-out effect */
 }
 
 .imessage.fade-out {
@@ -39,10 +40,11 @@ body {
 .imessage p {
     border-radius: 1.15rem;
     line-height: 1.25;
-    max-width: 100%; /* Allow paragraphs to stretch */
-    padding: 0.5rem .875rem;
+    max-width: 75%; /* Limit max-width for better alignment */
+    padding: 0.5rem 0.875rem;
     position: relative;
     word-wrap: break-word;
+    margin: 0.5rem;
 }
 
 .imessage p::before,
@@ -54,7 +56,7 @@ body {
 }
 
 p.from-me {
-    align-self: flex-end;
+    align-self: flex-end; /* Align from-me messages to the end (right side) */
     background-color: #248bf5;
     color: #fff; /* Ensure text color is white */
 }
@@ -80,11 +82,11 @@ p[class^="from-"] {
 }
 
 p.from-me ~ p.from-me {
-    margin: 0.25rem 0 0;
+    margin: 0.5rem 0 0;
 }
 
 p.from-me ~ p.from-me:not(:last-child) {
-    margin: 0.25rem 0 0;
+    margin: 0.5rem 0 0;
 }
 
 p.from-me ~ p.from-me:last-child {
@@ -92,7 +94,7 @@ p.from-me ~ p.from-me:last-child {
 }
 
 p.from-them {
-    align-items: flex-start;
+    align-self: flex-start; /* Align from-them messages to the start (left side) */
     background-color: rgb(50, 50, 50); /* Change background color */
     color: #ffffff; /* Text color */
 }
@@ -181,13 +183,15 @@ h2 {
 
     .imessage {
         font-size: 1.05rem;
-        margin: 0 auto 1rem;
-        max-width: 600px;
         padding: 0.25rem 0.875rem;
     }
 
     .imessage p {
         margin: 0.5rem 0;
+    }
+
+    #typing-text {
+        font-size: 1.25rem; /* Adjust font size for smaller screens */
     }
 }
 
@@ -211,4 +215,51 @@ h2 {
 
 p.from-me, p.from-them {
     animation: slideUp 0.5s ease forwards;
+}
+
+#typing-text {
+    max-width: 90%; /* Ensure initial text wraps within the viewport */
+    margin: 0 auto;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    font-family: "SanFrancisco"; /* Ensure correct font is used */
+    white-space: pre-wrap; /* Preserve whitespace and allow text to wrap */
+    word-wrap: break-word; /* For older browsers */
+    word-break: break-word; /* Add word-break to handle long words */
+    text-align: center; /* Center align text */
+    position: relative; /* Ensure caret positioning is relative to this element */
+}
+
+#typing-text h1 {
+    display: inline-block;
+    margin-left: 5px; /* Adjust margin as needed */
+    animation: blink-caret 0.75s step-end infinite; /* Blink animation */
+}
+
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#video-container.fade-in {
+    opacity: 1;
+}
+
+#video-container.fade-out {
+    opacity: 0;
+}
+
+#intro-video {
+    width: 80%;
+    height: auto;
 }
