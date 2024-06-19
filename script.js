@@ -162,19 +162,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!typingInitialMessage) {
             document.removeEventListener('click', tapHandler); // Remove tap event listener
             setTimeout(() => {
-
-                // Ensure background audio continues playing
-                bgAudio.play();
-
+                playSound("./audio/bg2.mp3");
                 typeText(introTexts, () => {
                     
                     // Show video with fade-in effect
                     videoContainer.classList.add('fade-in');
                     videoContainer.style.display = 'block'; // Show the video container
 
+                    // Ensure background audio continues playing
+                    bgAudio.play();
+
                     // Ensure video is muted and autoplayed
                     introVideo.volume = videoVolume;
                     introVideo.muted = true;
+                    introVideo.setAttribute('playsinline', ''); // Ensure video does not enter fullscreen on iOS
 
                     // Attempt to autoplay the video
                     introVideo.play()
@@ -214,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function runMessagesSequentially(messageArray, index, callback) {
         if (index < messageArray.length) {
             messageArray[index]();
-            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 2500); // Adjust delay between messages
+            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 1000); // Adjust delay between messages
         } else {
             callback();
         }
