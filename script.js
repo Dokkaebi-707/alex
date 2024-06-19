@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function runMessagesSequentially(messageArray, index, callback) {
         if (index < messageArray.length) {
             messageArray[index]();
-            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 1000); // Adjust delay between messages
+            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 3000); // Adjust delay between messages
         } else {
             callback();
         }
