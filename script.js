@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fadeOutDuration = 1000; // Duration of the fade-out effect
 
     // Adjust this value to set the desired volume level (0.0 to 1.0)
-    const videoVolume = 0.10; // Example: Set the volume to 10%
+    const videoVolume = 0; // Example: Set the volume to 10%
 
     function typeText(textArray, callback) {
         if (i < textArray.length) {
