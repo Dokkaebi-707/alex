@@ -226,4 +226,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add any conditions here to check if the user interaction is complete
         return true; // Example condition: always return true for demonstration
     }
+
+    function disableVerticalScrolling() {
+    document.body.style.overflowY = 'hidden';
+}
+
+// Function to enable vertical scrolling
+function enableVerticalScrolling() {
+    document.body.style.overflowY = 'auto';
+}
 });
