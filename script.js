@@ -167,7 +167,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     videoContainer.classList.add('fade-in');
                     videoContainer.style.display = 'block'; // Show the video container
                     introVideo.volume = videoVolume;
-                    introVideo.play();
+                    
+                    if (canAutoplayVideo()) {
+                        introVideo.muted = true; // Mute for autoplay compliance
+                        introVideo.play();
+                    } else {
+                        // Handle user interaction requirement for autoplay
+                        videoContainer.addEventListener('click', () => {
+                            introVideo.muted = false; // Unmute on user interaction
+                            introVideo.play();
+                        });
+                    }
 
                     introVideo.onended = () => {
                         // Fade out video and start initial texts
