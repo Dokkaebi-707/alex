@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "I'd walk through an eternal garden",
         "This is only the beginning of our new journey",
         "And it only gets better from here",
+        "Enjoy the gifts baby",
         "See you soon c:",
         "<3"
     ];
@@ -57,6 +58,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Adjust this value to set the desired volume level (0.0 to 1.0)
     const videoVolume = 0; // Example: Set the volume to 10%
 
+    function disableScrollAndZoom() {
+        document.body.style.overflow = 'hidden'; // Hide overflow to prevent scrolling
+        document.body.style.touchAction = 'none'; // Disable touch actions
+        document.body.style.userSelect = 'none'; // Disable user selection
+    }
+
+    // Function to enable scrolling and zooming
+    function enableScrollAndZoom() {
+        document.body.style.overflow = 'auto'; // Re-enable overflow for scrolling
+        document.body.style.touchAction = 'auto'; // Re-enable touch actions
+        document.body.style.userSelect = 'auto'; // Re-enable user selection
+    }
+    
     function typeText(textArray, callback) {
         if (i < textArray.length) {
             if (j < textArray[i].length) {
@@ -229,18 +243,5 @@ document.addEventListener('DOMContentLoaded', function() {
     function isSafeToCloseTab() {
         // Add any conditions here to check if the user interaction is complete
         return true; // Example condition: always return true for demonstration
-    }
-
-    function disableScrollAndZoom() {
-        document.body.style.overflow = 'hidden'; // Hide overflow to prevent scrolling
-        document.body.style.touchAction = 'none'; // Disable touch actions
-        document.body.style.userSelect = 'none'; // Disable user selection
-    }
-
-    // Function to enable scrolling and zooming
-    function enableScrollAndZoom() {
-        document.body.style.overflow = 'auto'; // Re-enable overflow for scrolling
-        document.body.style.touchAction = 'auto'; // Re-enable touch actions
-        document.body.style.userSelect = 'auto'; // Re-enable user selection
     }
 });
