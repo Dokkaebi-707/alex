@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Insert the new message at the end and trigger the sound
         imessageContainer.appendChild(p);
         if (fromClass === 'from-me') {
-            playSound('audio/fm.mp3');
+            playSound('./audio/fm.ogg');
         } else if (fromClass === 'from-them') {
-            playSound('audio/ft.mp3');
+            playSound('./audio/ft.ogg');
         }
 
         // Add slide animation to new message
