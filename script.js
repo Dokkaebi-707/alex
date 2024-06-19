@@ -26,10 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalTexts = [
         "Happy birthday lovey.",
         "I love you, forever mine and forever yours.",
-        "And if I had a flower for each time I thought of you",
-        "I'd walk through an eternal garden",
-        "This is only the beginning of our new journey",
-        "And it only gets better from here",
         "See you soon c:",
         "<3"
     ];
@@ -89,18 +85,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayFinalMessages() {
         runMessagesSequentially(messagesToAdd, 0, () => {
-            setTimeout(clearMessages, finalMessageDelay); // Clear messages after delay
+            setTimeout(clearMessagesAndCloseTab, finalMessageDelay); // Clear messages after delay and close tab
         });
     }
 
-    function clearMessages() {
+    function clearMessagesAndCloseTab() {
         imessageContainer.classList.add('fade-out'); // Add fade-out class
         setTimeout(() => {
             imessageContainer.innerHTML = ''; // Clear all iMessage styled messages
             imessageContainer.classList.remove('fade-out'); // Remove fade-out class
             i = 0;
             j = 0;
-            typeText(finalTexts, () => {}); // Start typing the final texts
+            typeText(finalTexts, () => {
+                // Close the tab/window
+                if (isSafeToCloseTab()) {
+                    window.close();
+                }
+            });
         }, fadeOutDuration);
     }
 
@@ -167,7 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     videoContainer.classList.add('fade-in');
                     videoContainer.style.display = 'block'; // Show the video container
                     introVideo.volume = videoVolume;
-                    
+                    introVideo.muted = true; // Ensure video is muted for autoplay compliance
+
                     // Attempt to autoplay the video
                     introVideo.play()
                         .then(() => {
@@ -206,9 +208,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function runMessagesSequentially(messageArray, index, callback) {
         if (index < messageArray.length) {
             messageArray[index]();
-            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 2500); // Adjust delay as needed
+            setTimeout(() => runMessagesSequentially(messageArray, index + 1, callback), 1000); // Adjust delay between messages
         } else {
             callback();
         }
+    }
+
+    // Function to check if it's safe to close the tab/window
+    function isSafeToCloseTab() {
+        // Add any conditions here to check if the user interaction is complete
+        return true; // Example condition: always return true for demonstration
     }
 });
