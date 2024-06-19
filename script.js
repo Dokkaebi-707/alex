@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalTexts = [
         "Happy birthday lovey.",
         "I love you, forever mine and forever yours.",
+        "And if I had a flower for each time I thought of you",
+        "I'd walk through an eternal garden",
+        "This is only the beginning of our new journey",
+        "And it only gets better from here",
         "See you soon c:",
         "<3"
     ];
