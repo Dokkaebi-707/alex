@@ -227,12 +227,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return true; // Example condition: always return true for demonstration
     }
 
-    function disableVerticalScrolling() {
-    document.body.style.overflowY = 'hidden';
-}
+    function disableScrollAndZoom() {
+        document.body.style.overflow = 'hidden'; // Hide overflow to prevent scrolling
+        document.body.style.touchAction = 'none'; // Disable touch actions
+        document.body.style.userSelect = 'none'; // Disable user selection
+    }
 
-// Function to enable vertical scrolling
-function enableVerticalScrolling() {
-    document.body.style.overflowY = 'auto';
-}
+    // Function to enable scrolling and zooming
+    function enableScrollAndZoom() {
+        document.body.style.overflow = 'auto'; // Re-enable overflow for scrolling
+        document.body.style.touchAction = 'auto'; // Re-enable touch actions
+        document.body.style.userSelect = 'auto'; // Re-enable user selection
+    }
 });
