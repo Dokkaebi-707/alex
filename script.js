@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "I'd walk through an eternal garden",
         "This is only the beginning of our new journey",
         "And it only gets better from here",
-        "Enjoy the gifts baby",
+        "Enjoy the gifts baby, I love you",
         "See you soon c:",
         "<3"
     ];
